@@ -1,0 +1,13 @@
+# Python
+backend/CodeEditor-env/
+__pycache__/
+
+# Node
+frontend/node_modules/
+dist/
+
+# OS
+.DS_Store
+
+# VS Code
+.vscode/
