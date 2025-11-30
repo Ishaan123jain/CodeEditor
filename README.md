@@ -23,6 +23,17 @@ This app solves that by enabling:
 * AI-style autocomplete suggestions (mocked)
 
 ---
+## 📌 **Important Screenshots and working**
+
+
+<img width="1920" height="1080" alt="Screenshot 2025-11-30 211800" src="https://github.com/user-attachments/assets/f9e0fbc3-192f-4e8c-9959-ffbd0f128c2c" />
+
+
+<img width="1920" height="1080" alt="Screenshot 2025-11-30 211811" src="https://github.com/user-attachments/assets/1149d073-76de-4b1a-b239-8abe165c1d1d" />
+
+Demo Video: https://drive.google.com/file/d/1A2NCBdP_nbr9AgVNlRW4bkte0eNt69zg/view?usp=sharing
+
+---
 
 ## ⚙️ **2. Features**
 
