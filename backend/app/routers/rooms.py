@@ -19,7 +19,7 @@ def get_db():
 @router.post("/rooms", response_model=RoomOut)
 def post_room(db: Session = Depends(get_db)):
     room = create_room(db)
-    return {"roomId": room.room_id}
+    return {"roomId": room.room_id}   # <-- MUST MATCH SCHEMA
 
 
 @router.get("/rooms/{room_id}")

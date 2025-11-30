@@ -1,7 +1,12 @@
 export const API_BASE = "http://localhost:8000";
 
-export async function createRoom() {
-  const res = await fetch(`${API_BASE}/rooms`, { method: "POST" });
+export async function createRoom(room_id: string) {
+  const res = await fetch(`${API_BASE}/rooms`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ room_id }),   // <-- MOST IMPORTANT
+  });
+
   return res.json();
 }
 

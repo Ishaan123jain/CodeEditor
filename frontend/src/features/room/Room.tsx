@@ -4,7 +4,7 @@ import Editor from "@monaco-editor/react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { setCode } from "../../store";
-import { requestAutocomplete } from "../../api";
+import { createRoom, requestAutocomplete } from "../../api";
 
 const AUTOCOMPLETE_DELAY = 600;
 
@@ -18,9 +18,28 @@ export default function Room() {
 
   const [suggestion, setSuggestion] = useState("");
 
-  /** WebSocket Setup */
+
   useEffect(() => {
     if (!roomId) return;
+
+    const createRoomIfNotExists = async () => {
+      console.log("Creating room:", roomId);
+
+      try {
+        const res = await createRoom(roomId); 
+        console.log("Room creation response:", res);
+      } catch (err) {
+        console.error("Failed to create room ➤", err);
+      }
+    };
+
+    createRoomIfNotExists();
+  }, [roomId]);
+
+  
+  useEffect(() => {
+    if (!roomId) return;
+    console.log("Connecting WebSocket:", roomId);
 
     const ws = new WebSocket(`ws://localhost:8000/ws/${roomId}`);
     wsRef.current = ws;
@@ -28,22 +47,23 @@ export default function Room() {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
-      if (data.type === "code_update") {
-        dispatch(setCode(data.code));
-      }
+      if (data.type === "init") dispatch(setCode(data.code));
+      if (data.type === "update") dispatch(setCode(data.code));
     };
+
+    ws.onerror = (err) => console.log("WS ERROR:", err);
+    ws.onclose = () => console.log("WS CLOSED");
 
     return () => ws.close();
   }, [roomId, dispatch]);
 
-  /** Editor Change Handler */
   const handleCodeChange = (value: string | undefined) => {
     const newCode = value || "";
     dispatch(setCode(newCode));
 
     wsRef.current?.send(
       JSON.stringify({
-        type: "code_update",
+        type: "sync",
         code: newCode
       })
     );
